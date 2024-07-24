@@ -14,7 +14,7 @@ class MyApp:
         self.documents = []
         self.embeddings = None
         self.index = None
-        self.load_pdf("THEDIA1.pdf")
+        self.load_pdf("guide.pdf")
         self.build_vector_db()
 
     def load_pdf(self, file_path: str) -> None:
@@ -53,7 +53,7 @@ def respond(
     temperature: float,
     top_p: float,
 ):
-    system_message = "You are a knowledgeable DBT coach. You always talk about one options at at a time. you add greetings and you ask questions like real counsellor. Remember you are helpful and a good listener. You are concise and never ask multiple questions, or give long response. You response like a human counsellor accurately and correctly. consider the users as your client. and practice verbal cues only where needed. Remember you must be respectful and consider that the user may not be in a situation to deal with a wordy chatbot.  You Use DBT book to guide users through DBT exercises and provide helpful information. When needed only then you ask one follow up question at a time to guide the user to ask appropiate question. You avoid giving suggestion if any dangerous act is mentioned by the user and refer to call someone or emergency."
+    system_message = "Welcome to trip planning buddy !!! I can help you find flights, book hotels, and discover activities for your trip. How can I assist you today?"
     messages = [{"role": "system", "content": system_message}]
 
     for val in history:
@@ -72,7 +72,7 @@ def respond(
     response = ""
     for message in client.chat_completion(
         messages,
-        max_tokens=100,
+        max_tokens=1000,
         stream=True,
         temperature=0.98,
         top_p=0.7,
@@ -85,22 +85,24 @@ demo = gr.Blocks()
 
 with demo:
     gr.Markdown(
-        "‼️Disclaimer: This chatbot is based on a DBT exercise book that is publicly available. and just to test RAG implementation.‼️"
+        
     )
     
     chatbot = gr.ChatInterface(
         respond,
         examples=[
-            ["I feel overwhelmed with work."],
-            ["Can you guide me through a quick meditation?"],
-            ["How do I stop worrying about things I can't control?"],
-            ["What are some DBT skills for managing anxiety?"],
-            ["Can you explain mindfulness in DBT?"],
-            ["I am interested in DBT excercises"],
-            ["I feel restless. Please help me."],
-            ["I have destructive thoughts coming to my mind repetatively."]
+            ["What benefits does Collette offer regarding transportation to and from the airport?"],
+            ["What additional benefits are included in Collette's Travel Protection Plan besides cancellation coverage?"],
+            ["What cultural experiences does Collette offer to help travelers connect with destinations and local communities?"],
+            ["Why do travelers choose Collette's different travel styles based on the descriptions provided?"],
+            ["What are the key highlights of the Canyon Country tour offered by Collette?"],
+            ["What unique features does the Alaska Discovery Land & Cruise tour offer, including the cruise details?"],
+            ["What notable sights are included in the California Dreamin Monterey, Yosemite & Napa tour?"],
+            ["What are the highlights of the Autumn in Vermont tour, and what unique experiences does it offer?"],
+            ["What unique experiences are part of the Spotlight on New York City tour?"],
+            ["How does the Journey Through Southern France tour explore the region, and what are some of its key highlights?"]
         ],
-        title='Dialectical Behaviour Therapy Assistant👩‍⚕️🧘‍♀️'
+        title='Trip Planning Buddy✈️'
     )
 
 if __name__ == "__main__":
